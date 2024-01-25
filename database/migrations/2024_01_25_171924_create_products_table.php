@@ -18,10 +18,10 @@ return new class extends Migration
             $table->string('description');
             $table->float('price');
             $table->bigInteger('stock');
-            $table->unsignedBigInteger('marca_id');
+            $table->unsignedBigInteger('brand_id');
             $table->timestamps();
 
-            $table->foreign('marca_id')->references('id')->on('brands');
+            $table->foreign('brand_id')->references('id')->on('brands');
         });
     }
 
