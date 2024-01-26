@@ -6,20 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
+class Cart extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'stock',
-        'brand_id',
+        'client_id',
+        'product_id',
     ];
 
-    public function brand()
-    {
-        return $this->hasOne(Brand::class,'id','brand_id');
-    }
+
 }
