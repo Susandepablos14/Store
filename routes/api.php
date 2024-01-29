@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,10 @@ Route::get('/brand/{id}', [BrandController::class, 'show']);
 Route::put('/brand/{id}', [BrandController::class, 'update']);
 Route::delete('/brand/{id}', [BrandController::class, 'destroy']);
 Route::get('/brand/restore/{id}', [BrandController::class, 'restore']);
+
+Route::get('/client', [ClientController::class, 'index']);
+Route::post('/client', [ClientController::class, 'store']);
+Route::get('/client/{id}', [ClientController::class, 'show']);
+Route::put('/client/{id}', [ClientController::class, 'update']);
+Route::delete('/client/{id}', [ClientController::class, 'destroy']);
+Route::get('/client/restore/{id}', [ClientController::class, 'restore']);
