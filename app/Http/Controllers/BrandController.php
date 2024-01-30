@@ -21,7 +21,6 @@ class BrandController extends Controller
     {
         try {
             $brands = Brand::with('product')->filter($request)->paginate(10);
-            return $brands;
         } catch (Exception  $e) {
             return response()->json([
                 'data' => [
@@ -31,6 +30,7 @@ class BrandController extends Controller
             ]
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+        return $brands;
     }
 
     /**

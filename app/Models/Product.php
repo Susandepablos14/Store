@@ -22,4 +22,25 @@ class Product extends Model
     {
         return $this->hasOne(Brand::class,'id','brand_id');
     }
+
+    public function clothe()
+    {
+        return $this->hasMany(Clothe::class,'product_id','id');
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        return $query->when($request->name, function ($brands, $name){
+            return $brands->where('name', $name);
+        })->when($request->description, function ($brands, $description){
+            return $brands->where('description', $description);
+        })->when($request->price, function ($brands, $price){
+            return $brands->where('price', $price);
+        })->when($request->stock, function ($brands, $stock){
+            return $brands->where('stock', $stock);
+        })->when($request->brand_id, function ($brands, $brand_id){
+            return $brands->where('brand_id', $brand_id);
+        }
+    );
+    }
 }
