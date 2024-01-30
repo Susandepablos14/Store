@@ -64,7 +64,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = product::findOrFail($id);
+            $product = Product::findOrFail($id);
         } catch (Exception $e) {
             return response()->json([
                 'data' => [
@@ -142,7 +142,7 @@ class ProductController extends Controller
 
     public function restore($id)
     {
-        $product = product::find($id);
+        $product = Product::find($id);
         if ($product){
             return response()->json([
                 'errors' => [
