@@ -36,7 +36,7 @@ class DetailcartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDetailcartRequest $request)
+    public function store(Request $request)
     {
         try {
             $detailcart = new Detailcart();
@@ -63,24 +63,101 @@ class DetailcartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Detailcart $detailcart)
+    public function show($id)
     {
-        //
+        try{
+        $detailcart = Detailcart::FindOrFail($id);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'data' => [
+                'code' => $e -> getCode(),
+                'title' => 'Ha ocurrido un error porfavor intentelo más tarde',
+                'errors' => $e->getMessage(),
+            ]], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return response()->json([
+            'title' => 'detailcart found',
+            'message' => $detailcart,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDetailcartRequest $request, Detailcart $detailcart)
+    public function update(Request $request, $id)
     {
-        //
+        $detailcart = Detailcart::Find($id);
+        if (!$detailcart){
+            return response()->json([
+            'message' => 'No es posible editar esté detailcart',
+            ],422);
+        }
+        try{
+            $detailcart->cart_id = $request->cart_id ?? $detailcart->cart_id;
+            $detailcart->product_id =  $request->product_id ?? $detailcart->product_id;
+            $detailcart->quantity = $request->quantity ?? $detailcart->quantity;
+            $detailcart->save();
+        }
+        catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                'code' => $e -> getCode(),
+                'title' => 'Ha ocurrido un error porfavor intentelo más tarde',
+                'errors' => $e->getMessage(),
+            ]], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return response()->json([
+            'title' => 'detailcart update',
+            'message' => $detailcart,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Detailcart $detailcart)
+    public function destroy($id)
     {
-        //
+        try {
+            $detailcart = Detailcart::FindOrFail($id);
+            $detailcart->delete();
+        } catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                'code' => $e -> getCode(),
+                'title' => 'Ha ocurrido un error porfavor intentelo más tarde',
+                'errors' => $e->getMessage(),
+            ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return response()->json([
+            'message' => 'detailcart deleted',
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $detailcart  = Detailcart ::Find($id);
+        if ($detailcart){
+            return response()->json([
+            'message' => 'No es posible restaurar esté detailcart ',
+            ],422);
+        }
+        try {
+            $detailcart  = detailcart ::withTrashed()->FindOrFail($id);
+            $detailcart ->restore();
+        } catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                'code' => $e -> getCode(),
+                'title' => 'Ha ocurrido un error porfavor intentelo más tarde',
+                'errors' => $e->getMessage(),
+            ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        return response()->json([
+        'title' => '$detailcart  restore',
+        'message' => $detailcart ,
+        ]);
     }
 }
