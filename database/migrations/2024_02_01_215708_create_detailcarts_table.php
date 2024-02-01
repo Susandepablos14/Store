@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('cart_id');
             $table->unsignedBigInteger('product_id');
-            $table->bigInteger('Quantity');
+            $table->bigInteger('quantity');
             $table->softDeletes();
             $table->timestamps();
 
