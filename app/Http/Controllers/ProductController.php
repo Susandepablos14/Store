@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         try {
-            $products = Product::with('brand', 'clothe')->filter($request)->paginate(10);
+            $products = Product::with('brand', 'clothe', 'footwear')->filter($request)->paginate(10);
         } catch (Exception  $e) {
             return response()->json([
                 'data' => [

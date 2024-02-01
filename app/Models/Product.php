@@ -28,6 +28,12 @@ class Product extends Model
         return $this->hasMany(Clothe::class,'product_id','id');
     }
 
+    public function footwear()
+    {
+        return $this->hasMany(Footwear::class,'product_id','id');
+    }
+
+
     public function scopeFilter($query, $request)
     {
         return $query->when($request->name, function ($brands, $name){

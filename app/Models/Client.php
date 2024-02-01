@@ -18,7 +18,18 @@ class Client extends Model
         'phone',
         'email',
         'ci',
-     ] ;
+    ] ;
+
+    public function state()
+    {
+        return $this->hasOne(Client::class,'id','client_id');
+    }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class,'client_id','id');
+    }
+
 
     Public Function scopeFilter ($query, $request) {
 

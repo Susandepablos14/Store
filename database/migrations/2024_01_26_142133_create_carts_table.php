@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->softDeletes();
             $table->unsignedBigInteger('client_id');
-            $table->string('status'); // Active, Pending, Approved, Cancelled, Finished
+            $table->string('status'); // Active, Cancelled, Finished
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients');

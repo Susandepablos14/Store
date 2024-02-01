@@ -18,6 +18,11 @@ class Footwear extends Model
         'url',
         'product_id'];
 
+    public function product()
+    {
+        return $this->hasOne(Product::class,'id','product_id');
+    }
+
     Public function scopeFilter ($query, $request){
         return $query->when($request->type, Function ($Footwears, $type){
             return $Footwears->where('type', $type);

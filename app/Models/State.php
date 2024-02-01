@@ -12,6 +12,11 @@ class State extends Model
 
     protected $fillable = ['name'];
 
+    public function client()
+    {
+        return $this->hasMany(Client::class,'state_id','id');
+    }
+
     Public Function scopeFilter ($query, $request) {
 
     return $query->when($request->name, function ($state, $name){

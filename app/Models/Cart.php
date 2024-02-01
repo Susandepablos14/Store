@@ -15,6 +15,11 @@ class Cart extends Model
         'status',
     ];
 
+    public function client()
+    {
+        return $this->hasOne(Client::class,'id','client_id');
+    }
+
     Public Function scopeFilter ($query, $request) {
 
         return $query->when($request->client_id, function ($cart, $client_id){

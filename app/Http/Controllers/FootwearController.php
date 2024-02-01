@@ -18,7 +18,7 @@ class FootwearController extends Controller
     public function index(Request $request)
     {
         try {
-        $Footwears = Footwear::Filter($request)->paginate(10);
+        $Footwears = Footwear::with('product.brand')->Filter($request)->paginate(10);
         }
         catch(Exception $e){
             return response()->json([

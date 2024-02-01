@@ -18,7 +18,7 @@ class StateController extends Controller
     public function index(Request $request)
     {
         try {
-            $state = State::Filter($request)->paginate(10);
+            $state = State::with('client')->Filter($request)->paginate(10);
         }catch(exception $e){
             return response()->json([
             'data' => [

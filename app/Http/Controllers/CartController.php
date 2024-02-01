@@ -17,7 +17,7 @@ class CartController extends Controller
     public function index(Request $request)
     {
         try {
-            $cart = Cart::Filter($request)->paginate(10);
+            $cart = Cart::with('client.state')->Filter($request)->paginate(10);
         }catch(Exception $e){
             return response()->json([
             'data' => [

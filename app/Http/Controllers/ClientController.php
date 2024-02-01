@@ -18,7 +18,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         try {
-            $clients = Client::Filter($request)->paginate(10);
+            $clients = Client::with('state', 'cart')->Filter($request)->paginate(10);
         } catch (Exception $e) {
             return response()->json([
                 'data' => [
