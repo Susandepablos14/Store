@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClotheController;
+use App\Http\Controllers\DetailcartController;
 use App\Http\Controllers\FootwearController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StateController;
@@ -73,4 +74,11 @@ Route::get('/Footwear/{id}', [FootwearController::class, 'show']);
 Route::put('/Footwear/{id}', [FootwearController::class, 'update']);
 Route::delete('/Footwear/{id}', [FootwearController::class, 'destroy']);
 Route::get('/Footwear/restore/{id}', [FootwearController::class, 'restore']);
+
+Route::get('/detailcarts', [DetailcartController::class, 'index']);
+Route::post('/detailcart', [DetailcartController::class, 'store']);
+Route::get('/detailcart/{id}', [DetailcartController::class, 'show']);
+Route::put('/detailcart/{id}', [DetailcartController::class, 'update']);
+Route::delete('/detailcart/{id}', [DetailcartController::class, 'destroy']);
+Route::get('/detailcart/restore/{id}', [DetailcartController::class, 'restore']);
 
