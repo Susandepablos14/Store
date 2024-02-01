@@ -39,6 +39,7 @@ class CartController extends Controller
         try {
             $cart = new Cart();
             $cart->client_id = $request->client_id;
+            $cart->status = $request->status;
 
             $cart->save();
         }  catch (Exception $e) {
@@ -58,24 +59,110 @@ class CartController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Cart $cart)
+    public function show($id)
     {
-        //
+        try {
+            $cart = Cart::findOrFail($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                    'code'   => $e->getCode(),
+                    'title'  =>'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.',
+                    'errors' => $e->getMessage(),
+            ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        };
+        return response()->json([
+            'message'    => 'Hola',
+            'response'   => $cart,
+        ]); ;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCartRequest $request, Cart $cart)
+    public function update(Request $request, $id)
     {
-        //
+        $cart = Cart::find($id);
+        if (!$cart){
+            return response()->json([
+                'errors' => [
+                    'message'   => 'No se encontro esta marca',
+                ]
+            ], 422);
+        }
+        try {
+            $cart = Cart::findOrFail($id);
+            $cart->status = $request->status ?? $cart->status;
+
+            $cart->save();
+            $response = Cart::find($id);
+        } catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                    'code'   => $e->getCode(),
+                    'title'  =>'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.',
+                    'errors' => $e->getMessage(),
+            ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        };
+
+        return response()->json([
+            'message'    => 'Registro Actualizado exitosamente',
+            'response'   => $response,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy($id)
     {
-        //
+        try {
+            $cart = Cart::findOrFail($id);
+            $cart->delete();
+
+        } catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                    'code'   => $e->getCode(),
+                    'title'  =>'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.',
+                    'errors' => $e->getMessage(),
+            ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        };
+
+        return response()->json([
+            'message'    => 'Registro Borrado exitosamente',
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $cart = Cart::find($id);
+        if ($cart){
+            return response()->json([
+                'errors' => [
+                    'message'   => 'Esta marca no se encuentra eliminada',
+                ]
+            ], 422);
+        }
+        try {
+            $cart = Cart::withTrashed()->findOrFail($id);
+            $cart->restore();
+
+        } catch (Exception $e) {
+            return response()->json([
+                'data' => [
+                    'code'   => $e->getCode(),
+                    'title'  =>'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde.',
+                    'errors' => $e->getMessage(),
+            ]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        };
+
+        return response()->json([
+            'message'    => 'Restaurado exitosamente',
+        ]);
     }
 }
