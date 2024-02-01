@@ -23,12 +23,12 @@ class StateController extends Controller
             return response()->json([
             'data' => [
             'code' => $e -> getCode(),
-            'title' => 'Ha ocurrido un error porfavor intentelo más tarde',
+            'title' => 'Ha ocurrido un error por favor intentelo más tarde',
             'errors' => $e->getMessage(),
             ]], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return response()->json([
-        'title' => 'clients found',
+        'title' => 'State found',
         'message' => $state,]);
     }
 
@@ -67,7 +67,7 @@ class StateController extends Controller
             return response()->json([
                 'data' =>[
                 'code' => $e -> getCode(),
-                'title' => 'Ha ocurrido un error porfavor intentelo más tarde',
+                'title' => 'Ha ocurrido un error por favor intentelo más tarde',
                 'errors' => $e->getMessage()
                 ]
             ]);
