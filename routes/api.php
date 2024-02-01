@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClotheController;
+use App\Http\Controllers\FootwearController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StateController;
 use Illuminate\Http\Request;
@@ -65,4 +66,11 @@ Route::get('/clothe/{id}', [ClotheController::class, 'show']);
 Route::put('/clothe/{id}', [ClotheController::class, 'update']);
 Route::delete('/clothe/{id}', [ClotheController::class, 'destroy']);
 Route::get('/clothe/restore/{id}', [ClotheController::class, 'restore']);
+
+Route::get('/Footwears', [FootwearController::class, 'index']);
+Route::post('/Footwear', [FootwearController::class, 'store']);
+Route::get('/Footwear/{id}', [FootwearController::class, 'show']);
+Route::put('/Footwear/{id}', [FootwearController::class, 'update']);
+Route::delete('/Footwear/{id}', [FootwearController::class, 'destroy']);
+Route::get('/Footwear/restore/{id}', [FootwearController::class, 'restore']);
 
