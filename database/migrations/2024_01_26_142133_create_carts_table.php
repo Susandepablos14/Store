@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->softDeletes();
             $table->unsignedBigInteger('client_id');
-            $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients');
-            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 
