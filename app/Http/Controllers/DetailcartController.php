@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Detailcart;
 use App\Http\Requests\StoreDetailcartRequest;
 use App\Http\Requests\UpdateDetailcartRequest;
+use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -40,11 +41,28 @@ class DetailcartController extends Controller
     {
         try {
             $detailcart = new Detailcart();
-            $detailcart->cart_id = $request->cart_id;
-            $detailcart->product_id =  $request->product_id;
-            $detailcart->quantity = $request->quantity;
 
-            $detailcart->save();
+            $id = $request->product_id;
+            $product = Product::find($id);
+            $stock =  $product->stock;
+
+            $quantity = $request->quantity;
+
+            if($stock<$quantity){
+                return response()->json([
+                    'title' => 'Está cantidad no esta disponible',
+                    'message' => $quantity,
+                ]);
+            }else{
+                $detailcart->cart_id = $request->cart_id;
+                $detailcart->product_id = $id;
+                $detailcart->quantity = $quantity;
+                $resta = $stock-$quantity;
+                $product->stock = $resta;
+                $product->save();
+                $detailcart->save();
+            }
+
         }
         catch(exception $e){
             return response()->json([
